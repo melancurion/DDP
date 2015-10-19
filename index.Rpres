@@ -46,10 +46,9 @@ abline(v = 1/lambda, col = "red")
 abline(v = std_dev, col = "lightgreen")
 ```
 
-The exponential distribution has this form
+###### The exponential distribution has this form.
 
 ***
-
 ```{r Histograms,echo=FALSE,warnings=FALSE,errors=FALSE}
 expdraw <- function(numdraws = 1000, drawsize = 40, lambda = 0.2) {
     draws <<- data.frame(matrix(data = rexp(drawsize * numdraws, lambda), nrow = numdraws))
@@ -75,7 +74,7 @@ hist(draws$mean, breaks = 40, main = "sample means\n5000 samples of size 100, la
 hist(draws$var, breaks = 40, main = "Sample variances\n5000 nsamples of size 100, lambda = 0.2")
 ```
 
-Examples of sample distributions obtained by varying the parameters. In the examples above, the exponential rate is `r lambda`. This can be altered by the user.
+###### Distributions obtained by varying the parameters. In these examples, the exponential rate is `r lambda` -- which can be altered by the user.
 
 References
 ========================================================

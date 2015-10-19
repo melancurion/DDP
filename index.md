@@ -36,13 +36,12 @@ Underlying population distribution and distributions of sample means and varianc
 
 ![plot of chunk Exponential](index-figure/Exponential-1.png) 
 
-The exponential distribution has this form
+###### The exponential distribution has this form.
 
 ***
-
 ![plot of chunk Histograms](index-figure/Histograms-1.png) 
 
-Examples of sample distributions obtained by varying the parameters. In the examples above, the exponential rate is 0.2. This can be altered by the user.
+###### Distributions obtained by varying the parameters. In these examples, the exponential rate is 0.2 -- which can be altered by the user.
 
 References
 ========================================================

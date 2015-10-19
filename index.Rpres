@@ -1,0 +1,87 @@
+Central Limit Theorem and Asymptotics Simulation
+===
+author: Melancurion
+date: 19 October 2015
+transition: rotate
+font-family: helvetica
+
+Summary
+===
+
+My Shiny application was motivated by classwork in the Statistical Inference course within the JHU / Coursera Data Science Specialization --- especially by the treatment of the Central Limit Theorem and asymptotics. The simulation is available at the following URL:
+https://melancurion.shinyapps.io/DDP-Project
+
+- The exponential distribution is obviously non-gaussian. It seemed a reasonable choice to contrast the sampling statistics distributions with the underlying population distribution.
+
+- The Shiny app allows the user to investigate interactively how the the distribution of sample means approaches normality with a large number of samples.
+
+
+Description
+===
+* The app displays:
+
+    + the __long-run distribution__ of __sample means__ and __sample variances__ of random samples from an underlying exponentially distributed population
+
+    + a __histogram of exponential random draws__, and a theoretical __exponential distribution curve__
+
+    + __asymptotic plots__ showing how cumulative sample means and variances converge on their respective estimators as the number of samples increases
+
+* The user can change the default sampling parameters (number of draws, sample size, rate parameter) from __slider widgets__.
+
+
+
+Underlying population distribution and distributions of sample means and variances
+===
+
+
+```{r Exponential,echo=FALSE,warnings=FALSE,errors=FALSE, width=2}
+n <- 2000; lambda <- 0.2; sd <- 1/sqrt(lambda)
+std_dev <- 1/lambda + c(-2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)*sd
+par(mfrow = c(1, 1), mar = c(2, 2, 2, 2), lwd = 1,
+  col="#009E73", cex.main = 1.0, cex.lab = 1.0, lwd = 1.5)
+set.seed(1096) # Set random number generation seed to ensure repeatability.
+curve(dexp(x, rate = lambda), from = 0, to = 5/lambda,
+ xlab = "x", ylab = "exp(x)", lwd = 1.2)
+abline(v = 1/lambda, col = "red")
+abline(v = std_dev, col = "lightgreen")
+```
+
+The exponential distribution has this form
+
+***
+
+```{r Histograms,echo=FALSE,warnings=FALSE,errors=FALSE}
+expdraw <- function(numdraws = 1000, drawsize = 40, lambda = 0.2) {
+    draws <<- data.frame(matrix(data = rexp(drawsize * numdraws, lambda), nrow = numdraws))
+    draws$mean <<- apply(draws, 1, mean)
+    draws$var<<- apply(draws[, 1:drawsize], 1, var)
+}
+
+par(mfrow = c(4, 2), cex.lab = 0.7)
+expdraw(500, 40, 0.2)
+hist(draws$mean, breaks = 40, main = "Sample means\n500 samples of size 40, lambda = 0.2")
+hist(draws$var, breaks = 40, main = "Sample variances: 500\nsamples of size 40,\nlambda = 0.2")
+
+expdraw(1000, 40, 0.2)
+hist(draws$mean, breaks = 40, main = "Sample means\n1000 samples of size 40, lambda = 0.2")
+hist(draws$var, breaks = 40, main = "Sample variances\n1000\nsamples of size 40,\nlambda = 0.2")
+
+expdraw(5000, 40, 0.2)
+hist(draws$mean, breaks = 40, main = "Sample means\n5000 samples of size 40, lambda = 0.2")
+hist(draws$var, breaks = 40, main = "Sample variances\n5000 nsamples of size 40, lambda = 0.2")
+
+expdraw(5000, 100, 0.2)
+hist(draws$mean, breaks = 40, main = "sample means\n5000 samples of size 100, lambda = 0.2")
+hist(draws$var, breaks = 40, main = "Sample variances\n5000 nsamples of size 100, lambda = 0.2")
+```
+
+Examples of sample distributions obtained by varying the parameters. In the examples above, the exponential rate is `r lambda`. This can be altered by the user.
+
+References
+========================================================
+
+Caffo, B., Course notes for Statistical Inference, part of JHU / Coursera Data Science Specialization:
+https://github.com/bcaffo/courses/tree/master/06_StatisticalInference
+
+Giles, Dave, "What's the Variance of a Sample Variance?", http://davegiles.blogspot.co.nz/2013/05/whats-variance-of-sample-variance.html,
+May 17, 2013
